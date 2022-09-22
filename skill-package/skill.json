@@ -1,0 +1,40 @@
+{
+  "manifest": {
+    "publishingInformation": {
+      "locales": {
+        "en-US": {
+          "summary": "Sample Short Description",
+          "examplePhrases": [
+            "Alexa open hello blockchain",
+            "hello",
+            "help"
+          ],
+          "name": "hello blockhain",
+          "description": "Sample Full Description"
+        },
+        "en-GB": {
+          "summary": "Sample Short Description",
+          "examplePhrases": [
+            "Alexa open hello blockchain",
+            "hello",
+            "help"
+          ],
+          "name": "hello blockhain",
+          "description": "Sample Full Description"
+        }
+      },
+      "isAvailableWorldwide": true,
+      "testingInstructions": "Sample Testing Instructions.",
+      "category": "KNOWLEDGE_AND_TRIVIA",
+      "distributionCountries": []
+    },
+    "apis": {
+      "custom": {
+        "endpoint": {
+          "uri": "arn:aws:lambda:us-east-1:722383165419:function:ask-helloblockhain-default-default-1663848544704"
+        }
+      }
+    },
+    "manifestVersion": "1.0"
+  }
+}
