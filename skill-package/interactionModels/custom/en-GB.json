@@ -29,6 +29,20 @@
                     ]
                 },
                 {
+                    "name": "WalletBalanceIntent",
+                    "slots": [],
+                    "samples": [
+                        "what is my wallet balnce",
+                        "for my wallet balance",
+                        "wallet balance",
+                        "for the balance of my wallet",
+                        "my ethereum balance",
+                        "how much eth do i have",
+                        "how many eth do i have",
+                        "what is my eth balance"
+                    ]
+                },
+                {
                     "name": "AMAZON.NavigateHomeIntent",
                     "samples": []
                 }

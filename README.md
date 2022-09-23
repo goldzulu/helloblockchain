@@ -1,71 +1,102 @@
-# Alexa local persistence adapter (for Node.js)
+# Tooling for Alexa Voice Developer 
 
-The local persistence adapter is a convenient and simple persistence adapter to use when you're developing and debugging on your local computer instead of developing remotely with a Lambda function via AWS Lambda or Alexa Hosted Skills.
+Apologies in advance for the rush documentation. Will be revisited given more time as this is a work in progress and was rushed for the Moralis/Filecoin hackathon.
+
+I intend to write a full video tutorial on this along with a blog post. And given resource will carry on working on the toolkit
+
+## Coded Live over a span of many hours!
+
+I am an AWS Community Builder (coming into the third year now!) and a voice technologies (certified Alexa Skill Builder) and blockchain/web3 evangelist (OG member of the DeveloperDao Pixel Avatars Derivatives project lead)
+
+To record the whole effort (and frustrations for this hackathon), I have done everything LIVE on Twitch observed by others.
+
+You can view the videos at [ https://www.twitch.tv/goldzulu ] under Hackathon / Hackathon Day 2.
+
+The videos will be uploaded onto YouTube soon as Twitch only stores 30 day of recording.
+
+## What is this?
+- Persistent Storage Example (web3persistant.js)
+  - Implementation of Persistence Adapter for Alexa to use instead of S3 or DynamoDB so the storage can be decentralise
+
+- Wallet Example (voice command to check wallet balance)
+  - Implementation of Voice Quering Ethereum Balance for a Wallet Address
+
+The above two is encapsulated in a single Alexa demo skill called Hello Blockchain
+
+[https://github.com/goldzulu/helloblockchain]
 
 ## What & Why
+
+Currently there are over 1 million voice developers out there. It is a small niche but nevertheless a very important one for the future. More tooling is needed so more voice based skills can be produced.
+
+According to Verified Market Research, the Speech and Voice Recognition Market size was valued at USD 7.5 Billion in 2021 and is projected to reach USD 59.6 Billion by 2030, growing at a CAGR of 22.57% from 2022 to 2030
+
+## How
+There are many challenges for a voice developer to overcome to access and use Web3 technologies
+
+### Storage of data 
+- currently is expensive for large audio and video files and bandwidth alone will cost a fortune
+- typically a popular audio skill like a sleep skill will cost the developer their arms and legs if the users (even if there is a few) use the "sound skill" to stream audio throughout the night
+- Filecoin, Web3.Storage. NFT.Storage and IPFS in general can help solve this problem by making it more cheap and affordable hence ultimately make developers produce more skills that benefits public good experience like meditation and mental health music for instance
+
+### Lack of Web3 Wallet using Voice Access
+- There needs to be more voice skills out there to help access wallets easily and facilitate the signing of transactions on Web3
+- Current the challenge is the UI experience. I believe i have a way to make this easier. Unfortunately due to resource constraint i was not able to implement it in this hackathon
+- I believe the future of Web3 is voice and voice is the future of Web3
+
+## Background Info
 
 ### What is a Persistence Adapter?
 
 Persistence adapters are a tool enabled by the Alexa SDK to simplify storing values between sessions. For example, in the [Cake Time tutorial](https://developer.amazon.com/en-US/alexa/alexa-skills-kit/get-deeper/tutorials-code-samples/build-an-engaging-alexa-skill), you're taught how to use the S3 persistence adapter to save the customer's birthday between visits.
 
-### Why/when do I need a "local" persistence adapter?
+### Why/when do I need a "Web3" persistence adapter?
 
-This is expressly intended for use when you are coding and debugging locally (i.e. on your own computer, using something like the [Alexa Toolkit for Visual Studio Code](https://developer.amazon.com/en-US/docs/alexa/ask-toolkit/vs-code-ask-skills.html). 
-
-While the S3 and Dynamo DB persistence adapters are relatively easy to use when you're running your skill handler code on AWS Lambda (via AWS or Alexa Hosted Skills), they rely on built-in configuration information that AWS Lambda has, but your local development environment usuallt does not. 
-
-The local adapter is simple. It uses the built-in file system module in Node.js to save your persistent data as a text file, the same way the S3 adapter does, only it does it locally. There's no extra AWS configuration and the persistent data files are easily editable with a text editor in case you need to quickly change a persistent variable value for a test.
+As mentioned above, for various reasons, primarily cost and privacy, you may not want to use the S3 persistence adapter. This is where the Web3 persistence adapter comes in. It allows you to store data in a decentralized manner, using IPFS. It brings data away from the centralised sources and promote censorship resistance. Privacy can be achieved by encrypting the data.
 
 ## Set-up Instructions
 
-### Step 1: Dependencies
+### Step 1: Dependencies and running the sample
 
-Install the [`js-sha512`](https://www.npmjs.com/package/js-sha512) package into your Node project in your local development environment. As you'll only need it in this environment, you can decide if you want to add it to your `package.json`. It's used to shorten the user ID you receive to make it less likely (though not impossible) you'll go over your file system's maximum path length.
+The skill have not submitted for certification yet, to compile you would have to have 
+- An Amazon Alexa Skills developer account at least 
+- Ask-sdk 2.0 installed
+- Ask-Cli installed 
 
-### Step 2: Add the adapter to your project folder
+Use ```ask run`` command to run the skill locally 
 
-Copy the `local_persist.class.js` file to your main project folder (the same one where your `index.js` is).
+### Step 2: API Keys
 
-### Step 3: Create your persistent storage folder
+You would need to get the API key from both web3.storage (persistence storage adapter) and also moralis.io (wallet)
+Fill them up in the .env (see .env-sample) in the /lambda directory (for production push) and in the main directory (for local debugging)
 
-If you don't specify a path in your code, the adapter will save all data files to a folder named `persistence` in your main project folder. **But you have to create the folder you'll use or the files won't be written.** 
+## Using the web3 persistence adapter seperately
 
-It is advisable to add this folder to your .gitignore file so it and the files saved in it aren't added to your git repository.
+In your index.js for your alexa skill
 
-### Step 4: Integrate the adapter
-
-Persistence adapters all have to meet the same interface, so the AttributesManager functions in your skill handler code are the same whether you're using this, the S3 adapter, or any other. **BUT** you don't want to accidentally push to production using a local adapter. 
-
-The best practice is to use an environment variable, but there are many ways to set environment variables, both temporarily and permanently in your operating system, in your AWS Lambda configuration, or using the [`dotenv`](https://www.npmjs.com/package/dotenv) package for Node.  How you set the variable and what you name it is up to you, but for this example, we'll call the variable `SKILL_STAGE` and we'll have two sample values: `prod` and `dev`, which you would set for each machine depending on if it was a production server or a development environment.
-
-The sample below assumes you'll use the S3 persistence adapter as a default and this one if you're explicitly running in development.
-
-At the top of the `index.js`, where you're requiring modules.
+At the top of the file, import the web3 persistence adapter
 
 ```javascript
-if (process.env.SKILL_STAGE === "dev") {
-  const persistence = require('./local_persist.class.js');
-  var persistence_adapter = new persistence.localPersistenceAdapter({"path": "./pvals"})
-} else {
-  const persistence = require('ask-sdk-s3-persistence-adapter');
-  var persistence_adapter = new persistence.S3PersistenceAdapter({bucketName:process.env.S3_PERSISTENCE_BUCKET})
-}
+  const web3PersistenceAdapter = require('./web3persistant.js');
+  const persistence_adapter = new web3PersistenceAdapter({token: YOUR_WEB3_STORAGE_TOKEN});
 ```
-
-The constructor for `localPersistenceAdapter()` takes an optional argument of a configuration object with a `path` value that is appended to the path for the main code folder. If one is not provided, `./persistence` will be used as the default. Relative paths like `../../persistence` have also been known to work. If you're using the Dynamo DB adapter or another persistence adapter in production, you'll want to adjust the code.
-
-*Remember, you must create the directory, whether you specify it or allow the default.*  
-
-Then, later in `index.js`, where you're constructing the SkillBuilder:
-
+And use the Alexa.SkillBuilders.custom() .withPersistenceAdapter option
+  
 ```javascript
-Alexa.SkillBuilders.custom()
-  .withPersistenceAdapter(getPersistenceAdapter(ddbTableName))
-  [...]
+  const skillBuilder = Alexa.SkillBuilders.custom()
+    .addRequestHandlers(
+      LaunchRequestHandler,
+      HelloWorldIntentHandler,
+      HelpIntentHandler,
+      CancelAndStopIntentHandler,
+      SessionEndedRequestHandler,
+    )
+    .addErrorHandlers(ErrorHandler)
+    .withPersistenceAdapter(persistence_adapter)
+    .withApiClient(new Alexa.DefaultApiClient());
 ```
-
-When you save (a) persistent value(s) for the first time, the local persistence adapter will hash the user ID to a more easily managed (especially for Windows) `[64-character-hash].json` file name. 
 
 ## More information and related links
 
 [ASK SDK: Managing Attributes](https://developer.amazon.com/en-US/docs/alexa/alexa-skills-kit-sdk-for-nodejs/manage-attributes.html)
+
