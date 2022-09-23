@@ -131,3 +131,8 @@ dist
 
 .DS_Store
 lambda/persistence/
+
+.ask/lambda/
+.ask/lambda
+.ask/ask-states.json
+ask-resources.json
