@@ -1,6 +1,6 @@
 # Tooling for Alexa Voice Developer 
 
-Apologies in advance for the rush documentation. Will be revisited given more time as this is a work in progress and was rushed for the Moralis/Filecoin hackathon.
+UPDATE: This initial SDK Implementation has won the Moralis Filecoin 1,2 Web3 Hackathon Grand Prize!
 
 I intend to write a full video tutorial on this along with a blog post. And given resource will carry on working on the toolkit
 
@@ -41,7 +41,7 @@ There are many challenges for a voice developer to overcome to access and use We
 
 ### Lack of Web3 Wallet using Voice Access
 - There needs to be more voice skills out there to help access wallets easily and facilitate the signing of transactions on Web3
-- Current the challenge is the UI experience. I believe i have a way to make this easier. Unfortunately due to resource constraint i was not able to implement it in this hackathon
+- Currently the challenge is the UI experience. I believe I have a way to make this easier. Unfortunately due to resource constraint i was not able to implement it in the 1,2 Web3 hackathon
 - I believe the future of Web3 is voice and voice is the future of Web3
 
 ## Background Info
